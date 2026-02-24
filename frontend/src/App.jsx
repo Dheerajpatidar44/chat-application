@@ -1,8 +1,7 @@
 import Navbar from "./components/Navbar";
 
 import HomePage from "./pages/HomePage";
-import SignUpPage from "./pages/SignUpPage";
-import LoginPage from "./pages/LoginPage";
+import AuthPage from "./pages/AuthPage";
 import SettingsPage from "./pages/SettingsPage";
 import ProfilePage from "./pages/ProfilePage";
 
@@ -24,6 +23,11 @@ const App = () => {
 		checkAuth();
 	}, [checkAuth]);
 
+	useEffect(() => {
+		document.documentElement.setAttribute("data-theme", theme);
+		document.body.setAttribute("data-theme", theme);
+	}, [theme]);
+
 	console.log({ authUser });
 
 	if (isCheckingAuth && !authUser)
@@ -40,20 +44,24 @@ const App = () => {
 			<Routes>
 				<Route
 					path="/"
-					element={authUser ? <HomePage /> : <Navigate to="/login" />}
+					element={authUser ? <HomePage /> : <Navigate to="/auth" />}
 				/>
 				<Route
 					path="/signup"
-					element={!authUser ? <SignUpPage /> : <Navigate to="/" />}
+					element={<Navigate to="/auth" />}
 				/>
 				<Route
 					path="/login"
-					element={!authUser ? <LoginPage /> : <Navigate to="/" />}
+					element={<Navigate to="/auth" />}
+				/>
+				<Route
+					path="/auth"
+					element={!authUser ? <AuthPage /> : <Navigate to="/" />}
 				/>
 				<Route path="/settings" element={<SettingsPage />} />
 				<Route
 					path="/profile"
-					element={authUser ? <ProfilePage /> : <Navigate to="/login" />}
+					element={authUser ? <ProfilePage /> : <Navigate to="/auth" />}
 				/>
 			</Routes>
 
